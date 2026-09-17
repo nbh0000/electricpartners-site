@@ -487,6 +487,15 @@ textarea{resize:vertical;min-height:110px}
 @media (prefers-reduced-motion:reduce){.hero-light h1 .w,.chip{animation:none;opacity:1;transform:none}.circuit .spark,.circuit .halo{animation:none;display:none}.hero-light h1 em:after{animation:none;transform:none}.ghost{animation:none;transform:none}
 .current,.site-header .header-inner:after,.path-card:before,.primary-service:before,.inspection-board:before,.side-card:before,.cta-section .wrap:before{animation:none}}
 
+/* 다크 배경 위 버튼: 라임 */
+.page-hero .btn,.side-card .btn,.cta-section .btn,.inspection-board .btn,.mobile-cta .btn{background:#B7E64A;color:#15352D;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.page-hero .btn:hover,.side-card .btn:hover,.cta-section .btn:hover,.mobile-cta .btn:hover{background:#c8f06a;color:#15352D}
+.page-hero .btn .arrow,.side-card .btn .arrow,.cta-section .btn .arrow{color:#15352D}
+.page-hero .btn-outline,.side-card .btn-outline{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.4);box-shadow:none}
+.page-hero .btn-outline:hover,.side-card .btn-outline:hover{background:rgba(255,255,255,.16);color:#fff}
+.page-hero .text-link,.side-card .text-link{color:#fff}
+.page-hero .text-link:hover{color:#B7E64A}
+
 /* floating header clearance (must come after page rules) */
 .hero,.hero-light,.page-hero,.quote-main{margin-top:-100px;padding-top:100px}
 .hero{padding-top:220px}.hero-light{padding-top:150px}.page-hero{padding-top:190px}.quote-main{padding-top:180px}
