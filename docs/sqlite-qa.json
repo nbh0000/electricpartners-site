@@ -1,0 +1,16 @@
+{
+  "localSQLite": true,
+  "liveD1": false,
+  "migrationsApplied": [
+    "0001_inquiries.sql",
+    "0002_services.sql"
+  ],
+  "legacyRecordPreserved": true,
+  "serviceInserts": [
+    "onsite",
+    "duty",
+    "both"
+  ],
+  "insertBindings": 23,
+  "allPassed": true
+}

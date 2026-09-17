@@ -1,0 +1,15 @@
+{
+  "name": "electricpartners-website",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "전기관리파트너스 — 상주 위탁·직무고시 대행 지역별 상담 사이트",
+  "scripts": {
+    "build": "python3 scripts/build.py",
+    "test": "node --test tests/worker.test.js",
+    "preview": "python3 -m http.server 8000 --bind 127.0.0.1 --directory dist"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "static": {
+    "htmlDocuments": 208,
+    "regionalDocuments": 196,
+    "districts": 93,
+    "uniqueTitles": 208,
+    "brokenInternalLinks": 0,
+    "allSubregionsSorted": true,
+    "reviewNoindex": true
+  },
+  "browser": [
+    "Duty route -> prefilled province/city/service -> duty conditions -> validation -> preview-only confirmation",
+    "Onsite and combined service form flows validated independently",
+    "93-area search and service-linked independent URLs verified",
+    "No horizontal page overflow across 8 templates at 320/375/390/768/1024/1440 px",
+    "No JS page errors or external requests from offline preview"
+  ],
+  "live_integrations": "not connected; browser review and mocked worker tests only"
+}

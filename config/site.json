@@ -1,0 +1,43 @@
+{
+  "brand": "전기관리파트너스",
+  "brandEnglish": "ELECTRIC PARTNERS",
+  "brandConfirmed": true,
+  "mode": "preview",
+  "origin": "https://elecmanagepartners.com",
+  "operator": {
+    "name": "직무고시 전기안전진단 전기안전관리 전기안전관리자 선임",
+    "representative": "이은주",
+    "registrationNumber": "776-19-02413",
+    "publicAddress": "",
+    "verified": false
+  },
+  "provider": {
+    "name": "㈜에프앤비종합관리",
+    "verified": false,
+    "registrationScopeVerified": false
+  },
+  "phone": "",
+  "email": "",
+  "privacy": {
+    "verified": false,
+    "controller": "",
+    "contact": "",
+    "retentionText": "",
+    "thirdPartyTransfer": false,
+    "thirdPartyRecipient": "",
+    "version": "draft-2026-09-17-v2"
+  },
+  "form": {
+    "enabled": false,
+    "endpoint": "/api/inquiries",
+    "turnstileSiteKey": ""
+  },
+  "seo": {
+    "approvedPaths": [],
+    "googleVerification": "",
+    "naverVerification": ""
+  },
+  "domainCandidates": [
+    "elecmanagepartners.com"
+  ]
+}
