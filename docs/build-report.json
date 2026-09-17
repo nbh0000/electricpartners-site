@@ -2,8 +2,8 @@
   "mode": "preview",
   "htmlPages": 208,
   "regionalPages": 196,
-  "indexablePages": 0,
-  "sitemapUrls": 0,
+  "indexablePages": 205,
+  "sitemapUrls": 205,
   "routes": [
     "/",
     "/regions/",

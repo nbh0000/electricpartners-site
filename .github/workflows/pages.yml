@@ -22,9 +22,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Resolve base path (custom domain vs. github.io sub-path)
+        id: base
+        run: |
+          LIVE=$(python -c "import json;print(str(json.load(open('config/site.json'))['seo'].get('customDomainLive',False)).lower())")
+          if [ "$LIVE" = "true" ]; then echo "path=" >> "$GITHUB_OUTPUT"; else echo "path=/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"; fi
       - name: Build static site
         env:
-          BASE_PATH: /${{ github.event.repository.name }}
+          BASE_PATH: ${{ steps.base.outputs.path }}
         run: python scripts/build.py
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -33,6 +33,8 @@
     "turnstileSiteKey": ""
   },
   "seo": {
+    "indexing": true,
+    "customDomainLive": false,
     "approvedPaths": [],
     "googleVerification": "",
     "naverVerification": ""

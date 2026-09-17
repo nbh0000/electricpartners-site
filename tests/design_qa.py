@@ -20,7 +20,7 @@ for file in FILES:
     assert len(soup.find_all('h1'))==1,(file,'H1')
     title=soup.title.get_text();assert title not in titles,(file,'duplicate title');titles.add(title)
     assert '전기관리파트너스' in title,file
-    assert soup.find('meta',attrs={'name':'robots'})['content'].startswith('noindex'),file
+    assert soup.find('meta',attrs={'name':'robots'})['content'] in ('index,follow','noindex,follow'),file
     assert '전담전기' not in text and 'JEONDAM' not in text,file
     for a in soup.select('a[href^="/"]'):
         path=urlsplit(a['href']).path

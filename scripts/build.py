@@ -16,6 +16,9 @@ BRAND_EN=CONFIG.get('brandEnglish','ELECTRIC MANAGE PARTNERS')
 PREVIEW=CONFIG['mode']!='production'
 KEEA='https://www.keea.or.kr/head/work/getWWO04R01R01.do'
 BASE=os.environ.get('BASE_PATH','').rstrip('/')  # GitHub Pages 등 하위 경로 배포용
+SEO=CONFIG['seo']
+ORIGIN=CONFIG['origin'].rstrip('/')
+INDEXING=bool(SEO.get('indexing',not PREVIEW)) and bool(ORIGIN)  # 검색엔진 색인 허용 여부(문의 접수 활성화와 별개)
 AREA='서울 · 인천 · 경기 · 충북 · 충남'
 ARROW='<span class="arrow" aria-hidden="true">→</span>'
 
@@ -253,25 +256,31 @@ def quote_page()->str:
     <div class="form-error" role="alert" aria-live="polite"></div><div class="form-actions"><button type="button" class="btn btn-ghost prev" hidden>이전</button><button type="button" class="btn next">다음 단계 <span aria-hidden="true">→</span></button><button type="submit" class="btn submit" hidden>견적 문의 접수 <span aria-hidden="true">→</span></button></div></form><div class="form-result" hidden aria-live="polite"></div><noscript><p class="draft-note">문의 작성에는 자바스크립트가 필요합니다. 서비스 안내는 자바스크립트 없이도 읽을 수 있습니다.</p></noscript></div></div></div></main>'''
 
 
-def add(path,title,body,kind='page',description='',light=False):
+def add(path,title,body,kind='page',description='',light=False,crumbs=None):
     plain=re.sub('<[^>]+>','',title)
-    PAGES[path]={'title':plain+' | '+BRAND,'description':description or (plain+'. '+AREA+' 현장의 전기안전관리자 상주선임·위탁과 직무고시 대행. 지역별 비공개 견적 문의.'),'html':header(light)+body+footer(),'kind':kind}
+    PAGES[path]={'title':plain+' | '+BRAND,'description':description or (plain+'. '+AREA+' 현장의 전기안전관리자 상주선임·위탁과 직무고시 대행. 지역별 비공개 견적 문의.'),'html':header(light)+body+footer(),'kind':kind,'crumbs':crumbs}
 
 
 def page_doc(path,page):
-    indexable=not PREVIEW and page['kind'] not in ['privacy','quote','404'] and (not CONFIG['seo']['approvedPaths'] or path in CONFIG['seo']['approvedPaths'])
+    public=page['kind'] not in ['privacy','quote','404']
+    indexable=INDEXING and public and (not SEO['approvedPaths'] or path in SEO['approvedPaths'])
     robots='index,follow' if indexable else 'noindex,follow'
-    origin=CONFIG['origin'].rstrip('/')
-    canonical=f'<link rel="canonical" href="{E(origin+path)}">' if origin else ''
-    canonical+=f'<meta property="og:url" content="{E(origin+path)}">' if origin else ''
-    ver=''.join(f'<meta name="{name}" content="{E(CONFIG["seo"][key])}">' for key,name in [('googleVerification','google-site-verification'),('naverVerification','naver-site-verification')] if CONFIG['seo'][key])
+    canonical=f'<link rel="canonical" href="{E(ORIGIN+path)}">' if ORIGIN else ''
+    canonical+=f'<meta property="og:url" content="{E(ORIGIN+path)}">' if ORIGIN else ''
+    ver=''.join(f'<meta name="{name}" content="{E(SEO[key])}">' for key,name in [('googleVerification','google-site-verification'),('naverVerification','naver-site-verification')] if SEO.get(key))
     schema=''
-    if not PREVIEW:
-        data={'@context':'https://schema.org','@type':'WebPage','name':page['title'],'description':page['description'],'url':origin+path,'inLanguage':'ko-KR'}
+    if indexable:
+        graph=[{'@type':'WebPage','@id':ORIGIN+path,'name':page['title'],'description':page['description'],'url':ORIGIN+path,'inLanguage':'ko-KR','isPartOf':{'@id':ORIGIN+'/#website'}}]
+        if path=='/':
+            graph.append({'@type':'WebSite','@id':ORIGIN+'/#website','url':ORIGIN+'/','name':BRAND,'inLanguage':'ko-KR'})
+            graph.append({'@type':'Organization','@id':ORIGIN+'/#org','name':BRAND,'alternateName':BRAND_EN,'url':ORIGIN+'/','logo':ORIGIN+'/favicon.svg','areaServed':[r['fullName'] for r in REGIONS],'description':page['description']})
+        if page.get('crumbs'):
+            graph.append({'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':i+1,'name':n,'item':ORIGIN+u} for i,(u,n) in enumerate(page['crumbs'])]})
+        data={'@context':'https://schema.org','@graph':graph}
         schema='<script type="application/ld+json">'+json.dumps(data,ensure_ascii=False).replace('</','<\\/')+'</script>'
-    turnstile='<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' if not PREVIEW and page['kind']=='quote' else ''
+    turnstile='<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' if CONFIG['form']['enabled'] and page['kind']=='quote' else ''
     fonts='<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Outfit:wght@400;500;600&display=swap">'
-    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="{robots}"><meta name="theme-color" content="#15352D"><title>{E(page['title'])}</title><meta name="description" content="{E(page['description'])}"><meta property="og:type" content="website"><meta property="og:title" content="{E(page['title'])}"><meta property="og:description" content="{E(page['description'])}">{canonical}{ver}<link rel="icon" href="{BASE}/favicon.svg" type="image/svg+xml">{fonts}<link rel="stylesheet" href="{BASE}/assets/style.css">{schema}</head><body>{page['html']}<script src="{BASE}/assets/data.js" defer></script><script src="{BASE}/assets/app.js" defer></script>{turnstile}</body></html>'''
+    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="{robots}"><meta name="theme-color" content="#15352D"><title>{E(page['title'])}</title><meta name="description" content="{E(page['description'])}"><meta property="og:type" content="website"><meta property="og:site_name" content="{E(BRAND)}"><meta property="og:locale" content="ko_KR"><meta property="og:title" content="{E(page['title'])}"><meta property="og:description" content="{E(page['description'])}">{canonical}{ver}<link rel="icon" href="{BASE}/favicon.svg" type="image/svg+xml">{fonts}<link rel="stylesheet" href="{BASE}/assets/style.css">{schema}</head><body>{page['html']}<script src="{BASE}/assets/data.js" defer></script><script src="{BASE}/assets/app.js" defer></script>{turnstile}</body></html>'''
 
 
 def verify_production():
@@ -291,12 +300,12 @@ def main():
     add('/','전기안전관리자 상주선임·위탁 전문',home(),light=True,description=f'전기안전관리자 상주선임·상주 위탁 전문 {BRAND}. 신규 선임, 위탁업체 변경, 직접고용 전환과 직무고시 대행. {AREA} 지역별 비공개 견적 문의.')
     add('/regions/','서울·인천·경기·충북·충남 지역별 전기안전관리 안내',all_regions())
     for r in REGIONS:
-        add(f'/regions/{r["slug"]}/',r['name']+' 전기안전관리자 상주선임·위탁',region_page(r),'region',description=f'{r["fullName"]} 전기안전관리업체를 찾으신다면. {r["name"]} 사업장의 전기안전관리자 상주선임·상주 위탁, 위탁업체 변경, 직접고용 전환 견적 문의.')
-        add(region_url(r,service='duty'),r['name']+' 직무고시 대행',region_page(r,service='duty'),'region',description=f'{r["fullName"]} 직무고시 대행. {r["name"]} 사업장의 직무고시 점검·측정과 결과서 작성 견적 문의.')
+        add(f'/regions/{r["slug"]}/',r['name']+' 전기안전관리자 상주선임·위탁',region_page(r),'region',crumbs=[('/','홈'),('/regions/','서비스 지역'),(region_url(r),r['name'])],description=f'{r["fullName"]} 전기안전관리업체를 찾으신다면. {r["name"]} 사업장의 전기안전관리자 상주선임·상주 위탁, 위탁업체 변경, 직접고용 전환 견적 문의.')
+        add(region_url(r,service='duty'),r['name']+' 직무고시 대행',region_page(r,service='duty'),'region',description=f'{r["fullName"]} 직무고시 대행 전문 {BRAND}. {r["name"]} 사업장의 전기안전관리자 직무고시 점검·측정(열화상·절연·접지저항)과 결과서 작성을 대행합니다. 상주 위탁 없이 별도 의뢰 가능, 비공개 견적 문의.')
         for c in r['cities']:
             label=r['name']+' '+c['name']
-            add(region_url(r,c),label+' 전기안전관리자 상주선임·위탁',region_page(r,c),'region',description=f'{label} 전기안전관리업체를 찾으신다면. {c["name"]} 사업장의 전기안전관리자 상주선임·상주 위탁, 위탁업체 변경, 직접고용 전환 견적 문의.')
-            add(region_url(r,c,'duty'),label+' 직무고시 대행',region_page(r,c,'duty'),'region',description=f'{label} 직무고시 대행. {c["name"]} 사업장의 직무고시 점검·측정과 결과서 작성 견적 문의.')
+            add(region_url(r,c),label+' 전기안전관리자 상주선임·위탁',region_page(r,c),'region',crumbs=[('/','홈'),('/regions/','서비스 지역'),(region_url(r),r['name']),(region_url(r,c),c['name'])],description=f'{label} 전기안전관리업체를 찾으신다면. {c["name"]} 사업장의 전기안전관리자 상주선임·상주 위탁, 위탁업체 변경, 직접고용 전환 견적 문의.')
+            add(region_url(r,c,'duty'),label+' 직무고시 대행',region_page(r,c,'duty'),'region',description=f'{label} 직무고시 대행 전문 {BRAND}. {c["name"]} 사업장의 전기안전관리자 직무고시 점검·측정(열화상·절연·접지저항)과 결과서 작성을 대행합니다. 상주 위탁 없이 별도 의뢰 가능, 비공개 견적 문의.')
     add('/services/onsite/','전기안전관리자 상주선임·위탁 서비스',services())
     add('/services/duty/','직무고시 대행 서비스',duty_service())
     for k,g in GUIDES.items():add('/guide/'+k+'/',g['label'],guide(k))
@@ -312,10 +321,13 @@ def main():
         target=dist/('404.html' if path=='/404.html' else path.strip('/')+'/index.html' if path!='/' else 'index.html');target.parent.mkdir(parents=True,exist_ok=True);target.write_text(page_doc(path,page),encoding='utf-8')
     (dist/'.nojekyll').write_text('',encoding='utf-8')
     (dist/'favicon.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#F4F2EA"/><path fill="#15352D" d="M13 25 26 21 26 48 13 52zM34 14 47 10 47 47 34 51z"/><path fill="#B7E64A" d="M23 30 44 24 44 34 23 40z"/></svg>',encoding='utf-8')
-    origin=CONFIG['origin'].rstrip('/');urls=[p for p in PAGES if not PREVIEW and PAGES[p]['kind'] not in ['quote','privacy','404'] and (not CONFIG['seo']['approvedPaths'] or p in CONFIG['seo']['approvedPaths'])]
-    (dist/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+xml_escape(origin+p)+'</loc></url>' for p in urls)+'</urlset>',encoding='utf-8')
-    (dist/'robots.txt').write_text('User-agent: *\nAllow: /\nDisallow: /api/\n'+(f'Sitemap: {origin}/sitemap.xml\n' if origin and not PREVIEW else '# Review build: every page has a noindex meta tag. This is not access control.\n'),encoding='utf-8')
-    (dist/'_headers').write_text('/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n'+('  X-Robots-Tag: noindex, noarchive\n' if PREVIEW else ''),encoding='utf-8')
+    origin=ORIGIN;urls=[p for p in PAGES if INDEXING and PAGES[p]['kind'] not in ['quote','privacy','404'] and (not SEO['approvedPaths'] or p in SEO['approvedPaths'])]
+    today=__import__('datetime').date.today().isoformat()
+    def prio(p):return '1.0' if p=='/' else '0.9' if p.startswith('/services/') or p=='/regions/' else '0.8' if p.startswith('/regions/') else '0.6'
+    (dist/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'<url><loc>{xml_escape(origin+p)}</loc><lastmod>{today}</lastmod><changefreq>monthly</changefreq><priority>{prio(p)}</priority></url>\n' for p in urls)+'</urlset>',encoding='utf-8')
+    (dist/'robots.txt').write_text('User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /quote/\n'+(f'Sitemap: {origin}/sitemap.xml\n' if INDEXING else '# Review build: every page has a noindex meta tag. This is not access control.\n'),encoding='utf-8')
+    if SEO.get('customDomainLive') and origin:(dist/'CNAME').write_text(urlparse(origin).hostname+'\n',encoding='utf-8')
+    (dist/'_headers').write_text('/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n'+('' if INDEXING else '  X-Robots-Tag: noindex, noarchive\n'),encoding='utf-8')
     # Single-file reviewer: all route bodies are embedded; production uses real, pre-rendered pages.
     payload=json.dumps(PAGES,ensure_ascii=False).replace('</','<\\/').replace('\u2028','\\u2028').replace('\u2029','\\u2029')
     css=(ROOT/'assets/style.css').read_text('utf-8');js=(ROOT/'assets/app.js').read_text('utf-8');data=(dist/'assets/data.js').read_text('utf-8')
