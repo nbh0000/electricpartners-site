@@ -130,7 +130,7 @@ def home()->str:
         <h1 class="visually-hidden">전기안전관리자 상주선임·위탁 전문 전기관리파트너스</h1>
         <div class="hero-chips"><span class="chip" style="--i:0">신규 선임</span><span class="chip" style="--i:1">위탁업체 변경</span><span class="chip" style="--i:2">직접고용 전환</span><span class="chip" style="--i:3">{AREA}</span></div>
       </div></div>
-      <div class="hero-photo"><span class="current current-photo" aria-hidden="true"></span><div class="hero-photo-tag"><small>ON-SITE ELECTRICAL SAFETY</small><b>상주선임 · 위탁업체 변경 · 직접고용 전환</b></div><div class="path-grid">{path_cards}</div></div>
+      <div class="path-grid">{path_cards}</div>
     </div></section>
     <section class="section section-soft services-overview" id="services"><div class="wrap">
     <div class="service-duo"><article class="primary-service"><div class="service-card-top"><span class="pill">01 / ON-SITE</span></div><h3>전기안전관리자<br>상주선임·위탁</h3><p>법정 선임 의무가 있는 사업장에 자격을 갖춘 안전관리자를 상주 배치하고, 설비 점검·기록·보고 업무를 위탁 운영합니다.</p><ul class="service-list"><li>신규 상주선임 · 위탁업체 변경 · 직접고용 전환</li><li>설비 조건에 맞는 자격·인원 검토</li><li>일상 점검, 기록 관리, 법정 보고 지원</li></ul><div class="service-card-bottom">{a('/services/onsite/','서비스 자세히 보기 <span aria-hidden="true">→</span>','text-link')}{btn(quote_url(service='onsite'),'견적 문의')}</div></article>
