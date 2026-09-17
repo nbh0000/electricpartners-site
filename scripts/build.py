@@ -30,8 +30,8 @@ def btn(path:str,text:str='상주 위탁 상담',cls:str='',**attrs)->str:
 def logo_svg()->str:
     # 기존 브랜드 심볼(두 기둥 + 라임 바). 다크 배경에서는 CSS로 기둥 색을 흰색으로 바꾼다.
     return ('<svg viewBox="0 0 40 42" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
-            '<path class="mark-pillar" fill="#15221f" d="M3 13 15 9 15 35 3 39zM20 6 32 2 32 35 20 39z"/>'
-            '<path fill="#ddf96b" d="M12 18 28 13 28 22 12 27z"/></svg>')
+            '<path class="mark-pillar" fill="#15352D" d="M3 13 15 9 15 35 3 39zM20 6 32 2 32 35 20 39z"/>'
+            '<path fill="#B7E64A" d="M12 18 28 13 28 22 12 27z"/></svg>')
 
 
 def brand()->str:
@@ -270,7 +270,7 @@ def page_doc(path,page):
         schema='<script type="application/ld+json">'+json.dumps(data,ensure_ascii=False).replace('</','<\\/')+'</script>'
     turnstile='<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' if not PREVIEW and page['kind']=='quote' else ''
     fonts='<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Outfit:wght@400;500;600&display=swap">'
-    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="{robots}"><meta name="theme-color" content="#1b2a26"><title>{E(page['title'])}</title><meta name="description" content="{E(page['description'])}"><meta property="og:type" content="website"><meta property="og:title" content="{E(page['title'])}"><meta property="og:description" content="{E(page['description'])}">{canonical}{ver}<link rel="icon" href="{BASE}/favicon.svg" type="image/svg+xml">{fonts}<link rel="stylesheet" href="{BASE}/assets/style.css">{schema}</head><body>{page['html']}<script src="{BASE}/assets/data.js" defer></script><script src="{BASE}/assets/app.js" defer></script>{turnstile}</body></html>'''
+    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="{robots}"><meta name="theme-color" content="#15352D"><title>{E(page['title'])}</title><meta name="description" content="{E(page['description'])}"><meta property="og:type" content="website"><meta property="og:title" content="{E(page['title'])}"><meta property="og:description" content="{E(page['description'])}">{canonical}{ver}<link rel="icon" href="{BASE}/favicon.svg" type="image/svg+xml">{fonts}<link rel="stylesheet" href="{BASE}/assets/style.css">{schema}</head><body>{page['html']}<script src="{BASE}/assets/data.js" defer></script><script src="{BASE}/assets/app.js" defer></script>{turnstile}</body></html>'''
 
 
 def verify_production():
@@ -310,7 +310,7 @@ def main():
     for path,page in PAGES.items():
         target=dist/('404.html' if path=='/404.html' else path.strip('/')+'/index.html' if path!='/' else 'index.html');target.parent.mkdir(parents=True,exist_ok=True);target.write_text(page_doc(path,page),encoding='utf-8')
     (dist/'.nojekyll').write_text('',encoding='utf-8')
-    (dist/'favicon.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#f5f5ef"/><path fill="#15221f" d="M13 25 26 21 26 48 13 52zM34 14 47 10 47 47 34 51z"/><path fill="#ddf96b" d="M23 30 44 24 44 34 23 40z"/></svg>',encoding='utf-8')
+    (dist/'favicon.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#F4F2EA"/><path fill="#15352D" d="M13 25 26 21 26 48 13 52zM34 14 47 10 47 47 34 51z"/><path fill="#B7E64A" d="M23 30 44 24 44 34 23 40z"/></svg>',encoding='utf-8')
     origin=CONFIG['origin'].rstrip('/');urls=[p for p in PAGES if not PREVIEW and PAGES[p]['kind'] not in ['quote','privacy','404'] and (not CONFIG['seo']['approvedPaths'] or p in CONFIG['seo']['approvedPaths'])]
     (dist/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+xml_escape(origin+p)+'</loc></url>' for p in urls)+'</urlset>',encoding='utf-8')
     (dist/'robots.txt').write_text('User-agent: *\nAllow: /\nDisallow: /api/\n'+(f'Sitemap: {origin}/sitemap.xml\n' if origin and not PREVIEW else '# Review build: every page has a noindex meta tag. This is not access control.\n'),encoding='utf-8')
