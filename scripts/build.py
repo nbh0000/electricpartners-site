@@ -49,14 +49,15 @@ def header(light=False)->str:
 
 def footer()->str:
     o=CONFIG['operator']
-    contact=''
-    if CONFIG['phone']:contact+='<br><b>상담전화</b> '+E(CONFIG['phone'])
-    if CONFIG['email']:contact+=' &nbsp; <b>이메일</b> '+E(CONFIG['email'])
-    if o['publicAddress']:contact+='<br><b>주소</b> '+E(o['publicAddress'])
+    rows=[('상호',o['name']),('대표',o['representative']),('사업자등록번호',o['registrationNumber'])]
+    if CONFIG['phone']:rows.append(('상담전화',CONFIG['phone']))
+    if CONFIG['email']:rows.append(('이메일',CONFIG['email']))
+    if o['publicAddress']:rows.append(('주소',o['publicAddress']))
+    info=''.join(f'<div><dt>{E(k)}</dt><dd>{E(v)}</dd></div>' for k,v in rows)
     regions=''.join(a(region_url(r),E(r['name'])+' 상주 위탁') for r in REGIONS)
     return f'''<div class="current current-footer" aria-hidden="true"></div><footer class="footer"><div class="wrap"><div class="footer-top"><div>{brand()}<p class="footer-intro">전기안전관리자 상주선임·위탁 전문.<br>{AREA} 현장의 전기안전관리를 책임집니다.</p></div>
     <div class="footer-cols"><div class="footer-col"><b>서비스</b>{a('/services/onsite/','전기안전관리자 상주 위탁')}{a('/services/duty/','직무고시 대행')}{a('/quote/','견적 문의')}</div><div class="footer-col"><b>서비스 지역</b>{regions}{a('/regions/','전체 지역 보기')}</div><div class="footer-col"><b>안내</b>{a('/guide/cost/','상주 위탁 견적 가이드')}{a('/guide/change/','위탁업체 변경 안내')}{a('/guide/direct-hire/','직접고용 → 위탁 전환')}{a('/about/','회사 소개')}{a('/privacy/','개인정보처리방침')}</div></div></div>
-    <div class="business-info"><b>상호</b> {E(o['name'])} &nbsp; <b>대표</b> {E(o['representative'])} &nbsp; <b>사업자등록번호</b> {E(o['registrationNumber'])}{contact}<br>지역별 안내는 서비스 제공 지역의 구분이며, 각 지역의 지사·영업소 소재지를 뜻하지 않습니다.</div>
+    <div class="business-info"><dl>{info}</dl><p>지역별 안내는 서비스 제공 지역의 구분이며, 각 지역의 지사·영업소 소재지를 뜻하지 않습니다.</p></div>
     <div class="footer-bottom"><span>© {E(BRAND_EN)}. ALL RIGHTS RESERVED.</span><span>SEOUL · INCHEON · GYEONGGI · CHUNGBUK · CHUNGNAM</span></div></div></footer>
     <div class="mobile-cta"><span>전기안전관리자 상주 위탁<br>지역별 견적 문의</span>{btn('/quote/','견적 문의')}</div>'''
 

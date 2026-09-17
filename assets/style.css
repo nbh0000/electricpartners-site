@@ -256,8 +256,13 @@ small{font-size:12px}
 .footer-col b{display:block;font-size:15px;margin-bottom:16px}
 .footer-col a{display:block;font-size:14px;color:rgba(255,255,255,.65);padding:5px 0}
 .footer-col a:hover{color:#fff}
-.business-info{padding:36px 0;font-size:13px;color:rgba(255,255,255,.6);line-height:1.9}
-.business-info b{color:rgba(255,255,255,.9);font-weight:600;margin-right:6px}
+.business-info{padding:36px 0;font-size:13px;color:rgba(255,255,255,.6);line-height:1.7}
+.business-info dl{display:flex;flex-wrap:wrap;gap:6px 28px;margin:0 0 14px}
+.business-info dl div{display:flex;gap:10px;align-items:baseline}
+.business-info dt{color:rgba(255,255,255,.9);font-weight:600;flex-shrink:0}
+.business-info dd{white-space:nowrap}
+.business-info dd:first-line{white-space:normal}
+.business-info p{margin:0}
 .footer-bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:var(--en);font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.4);padding-top:24px;border-top:1px solid rgba(255,255,255,.1)}
 .mobile-cta{display:none}
 
@@ -532,6 +537,9 @@ textarea{resize:vertical;min-height:110px}
   .cta-block{flex-direction:column;align-items:flex-start}
   .cta-section .wrap{padding:72px 0}
   .footer-cols{grid-template-columns:repeat(2,1fr)}
+  .business-info dl{flex-direction:column;gap:8px}
+  .business-info dl div{display:grid;grid-template-columns:96px 1fr;gap:12px}
+  .business-info dd{white-space:normal;word-break:keep-all}
   .local-banner{flex-direction:column;align-items:flex-start}
   .form-card{padding:28px 22px}
   .field-grid{grid-template-columns:1fr}
