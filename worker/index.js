@@ -140,7 +140,15 @@ async function notify(reference,cleaned,env) {
 export default {
   async fetch(request,env,ctx) {
     const url=new URL(request.url);
-    if(!url.pathname.startsWith('/api/'))return env.ASSETS.fetch(request);
+    // HTTPS 강제 + 보안 헤더 (정적 자산 응답에 부여)
+    if(url.protocol==='http:'){url.protocol='https:';return Response.redirect(url.toString(),301);}
+    if(!url.pathname.startsWith('/api/')){
+      const res=await env.ASSETS.fetch(request);
+      const h=new Headers(res.headers);
+      h.set('Strict-Transport-Security','max-age=31536000; includeSubDomains; preload');
+      h.set('X-Content-Type-Options','nosniff');h.set('Referrer-Policy','strict-origin-when-cross-origin');h.set('X-Frame-Options','DENY');h.set('Permissions-Policy','camera=(), microphone=(), geolocation=()');
+      return new Response(res.body,{status:res.status,statusText:res.statusText,headers:h});
+    }
     if(url.pathname!=='/api/inquiries')return reply(404,{ok:false,error:'해당 경로가 없습니다.'});
     if(request.method!=='POST')return reply(405,{ok:false,error:'허용하지 않는 요청 방식입니다.'});
     const retention=Number(env.RETENTION_DAYS);
