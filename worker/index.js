@@ -144,13 +144,14 @@ export default {
     if(url.pathname!=='/api/inquiries')return reply(404,{ok:false,error:'해당 경로가 없습니다.'});
     if(request.method!=='POST')return reply(405,{ok:false,error:'허용하지 않는 요청 방식입니다.'});
     const retention=Number(env.RETENTION_DAYS);
-    if(env.ENABLE_INQUIRIES!=='true'||env.PRIVACY_VERIFIED!=='true'||!store(env)||!env.SITE_ORIGIN||!env.TURNSTILE_SECRET_KEY||!env.TURNSTILE_HOSTNAME||!env.RATE_LIMIT_SALT||!env.PRIVACY_VERSION||!Number.isInteger(retention)||retention<1||retention>3650)
+    if(env.ENABLE_INQUIRIES!=='true'||env.PRIVACY_VERIFIED!=='true'||!store(env)||!env.SITE_ORIGIN||!env.RATE_LIMIT_SALT||!env.PRIVACY_VERSION||!Number.isInteger(retention)||retention<1||retention>3650)
       return reply(503,{ok:false,error:'온라인 상담 접수를 준비 중입니다.'});
     if(request.headers.get('origin')!==env.SITE_ORIGIN || url.origin!==env.SITE_ORIGIN)return reply(403,{ok:false,error:'허용된 사이트에서 다시 접수해 주세요.'});
     if(!(request.headers.get('content-type')||'').toLowerCase().startsWith('application/json'))return reply(415,{ok:false,error:'입력 형식을 확인해 주세요.'});
     let body;try{body=await readJSON(request);}catch(error){return reply(error.message==='TOO_LARGE'?413:400,{ok:false,error:'요청 크기 또는 입력 형식을 확인해 주세요.'});}
     const checked=validate(body,env);if(checked.error)return reply(checked.status||400,{ok:false,error:checked.error});
-    if(!await verifyTurnstile(body.turnstileToken,env))return reply(400,{ok:false,error:'보안 확인이 만료되었거나 유효하지 않습니다. 다시 확인해 주세요.'});
+    // Turnstile 은 선택 사항: 시크릿이 설정된 경우에만 검증한다.
+    if(env.TURNSTILE_SECRET_KEY && !await verifyTurnstile(body.turnstileToken,env))return reply(400,{ok:false,error:'보안 확인이 만료되었거나 유효하지 않습니다. 다시 확인해 주세요.'});
     const ip=request.headers.get('CF-Connecting-IP');if(!ip)return reply(503,{ok:false,error:'접수 환경을 확인할 수 없습니다.'});
     try{
       if(await limited(ip,env))return reply(429,{ok:false,error:'잠시 후 다시 접수해 주세요.'});

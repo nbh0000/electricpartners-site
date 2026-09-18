@@ -24,14 +24,13 @@ SITE_ORIGIN = "https://elecmanagepartners.com"
 ENABLE_INQUIRIES = "true"
 PRIVACY_VERIFIED = "true"
 PRIVACY_VERSION = "2026-09-18-v1"
-TURNSTILE_HOSTNAME = "elecmanagepartners.com"
+TURNSTILE_HOSTNAME = ""   # Turnstile 미사용
 RETENTION_DAYS = "365"
 REQUIRE_TRANSFER_CONSENT = "true"
 
 # 시크릿 (wrangler secret put <NAME>):
 #   SUPABASE_URL           https://xxxx.supabase.co
 #   SUPABASE_SERVICE_KEY   Supabase → Project Settings → API → service_role
-#   TURNSTILE_SECRET_KEY   Cloudflare Turnstile 위젯 Secret Key
 #   RATE_LIMIT_SALT        임의의 긴 문자열 (openssl rand -hex 32)
 #   KAKAO_REST_KEY         Kakao Developers 앱 REST API 키
 #   KAKAO_REFRESH_TOKEN    docs/DEPLOYMENT.md 의 발급 절차 참고

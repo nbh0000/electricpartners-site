@@ -190,7 +190,7 @@
     payload.privacyConsent=fd.get('privacyConsent')==='yes';payload.transferConsent=fd.get('transferConsent')==='yes';
     payload.privacyVersion=SITE.privacyVersion;payload.turnstileToken=String(fd.get('cf-turnstile-response')||'');
     payload.attribution={...attribution};payload.entryPath=entryPath||'/';
-    if(!payload.turnstileToken){setError('보안 확인을 완료해 주세요.');return;}
+    if(SITE.form.turnstileSiteKey && !payload.turnstileToken){setError('보안 확인을 완료해 주세요.');return;}
     submitting=true;const button=form.querySelector('.submit');button.disabled=true;button.textContent='접수 중…';
     try{
       const response=await fetch(BASE+SITE.form.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify(payload)});
