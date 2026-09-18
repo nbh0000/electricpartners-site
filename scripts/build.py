@@ -310,7 +310,11 @@ def main():
     add('/services/duty/','직무고시 대행 서비스',duty_service())
     for k,g in GUIDES.items():add('/guide/'+k+'/',g['label'],guide(k))
     add('/about/','회사 소개',about())
-    priv=(ROOT/'content/privacy-approved.html').read_text('utf-8') if not PREVIEW else privacy()
+    pv=CONFIG['privacy'];o=CONFIG['operator']
+    tokens={'{{BRAND}}':BRAND,'{{CONTROLLER}}':pv['controller'] or o['name'],'{{REPRESENTATIVE}}':o['representative'],'{{CONTACT}}':pv['contact'] or (CONFIG['phone'] or CONFIG['email'] or '홈페이지 견적 문의 양식'),'{{RETENTION}}':pv['retentionText'] or '1년','{{PROVIDER}}':pv['thirdPartyRecipient'] or CONFIG['provider']['name'],'{{EFFECTIVE}}':pv.get('effectiveDate','')}
+    priv=(ROOT/'content/privacy-approved.html').read_text('utf-8')
+    for k,v in tokens.items():priv=priv.replace(k,E(v))
+    priv=priv.replace('href="/"','href="'+E(BASE)+'/"').replace('href="/privacy/"','href="'+E(BASE)+'/privacy/"')
     add('/privacy/','개인정보처리방침',priv,'privacy')
     add('/quote/','상주 위탁·직무고시 대행 견적 문의',quote_page(),'quote')
     add('/404.html','페이지를 찾을 수 없습니다','<main id="main"><div class="wrap not-found"><h1>404</h1><p>페이지 주소를 다시 확인해 주세요.</p>'+btn('/','홈으로 돌아가기')+'</div></main>','404')

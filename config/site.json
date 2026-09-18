@@ -20,12 +20,13 @@
   "email": "",
   "privacy": {
     "verified": false,
-    "controller": "",
+    "controller": "직무고시 전기안전진단 전기안전관리 전기안전관리자 선임",
     "contact": "",
-    "retentionText": "",
-    "thirdPartyTransfer": false,
-    "thirdPartyRecipient": "",
-    "version": "draft-2026-09-17-v2"
+    "retentionText": "1년",
+    "thirdPartyTransfer": true,
+    "thirdPartyRecipient": "㈜에프앤비종합관리",
+    "version": "2026-09-18-v1",
+    "effectiveDate": "2026년 9월 18일"
   },
   "form": {
     "enabled": false,
