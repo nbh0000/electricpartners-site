@@ -25,7 +25,8 @@
         ],
         "fullName": "강남구",
         "sortName": "강남구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "테헤란로 오피스·지식산업센터"
       },
       {
         "slug": "gangdong",
@@ -70,7 +71,8 @@
         ],
         "fullName": "강서구",
         "sortName": "강서구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "마곡 산업단지"
       },
       {
         "slug": "gwanak",
@@ -115,7 +117,8 @@
         ],
         "fullName": "구로구",
         "sortName": "구로구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "구로디지털단지"
       },
       {
         "slug": "geumcheon",
@@ -130,7 +133,8 @@
         ],
         "fullName": "금천구",
         "sortName": "금천구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "가산디지털단지 지식산업센터"
       },
       {
         "slug": "nowon",
@@ -205,7 +209,8 @@
         ],
         "fullName": "마포구",
         "sortName": "마포구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "상암 DMC"
       },
       {
         "slug": "seodaemun",
@@ -235,7 +240,8 @@
         ],
         "fullName": "서초구",
         "sortName": "서초구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "양재·서초 업무지구와 대형 물류시설"
       },
       {
         "slug": "seongdong",
@@ -250,7 +256,8 @@
         ],
         "fullName": "성동구",
         "sortName": "성동구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "성수동 지식산업센터"
       },
       {
         "slug": "seongbuk",
@@ -280,7 +287,8 @@
         ],
         "fullName": "송파구",
         "sortName": "송파구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "잠실·문정 업무지구"
       },
       {
         "slug": "yangcheon",
@@ -310,7 +318,8 @@
         ],
         "fullName": "영등포구",
         "sortName": "영등포구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "여의도 업무지구"
       },
       {
         "slug": "yongsan",
@@ -325,7 +334,8 @@
         ],
         "fullName": "용산구",
         "sortName": "용산구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "용산 업무·상업시설"
       },
       {
         "slug": "eunpyeong",
@@ -355,7 +365,8 @@
         ],
         "fullName": "종로구",
         "sortName": "종로구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "도심 오피스 빌딩"
       },
       {
         "slug": "jung",
@@ -370,7 +381,8 @@
         ],
         "fullName": "중구",
         "sortName": "중구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "도심 대형 상업시설"
       },
       {
         "slug": "jungnang",
@@ -388,7 +400,8 @@
         "aliases": []
       }
     ],
-    "updatedAt": "2026-09-17"
+    "updatedAt": "2026-09-17",
+    "context": "업무용 빌딩·지식산업센터·대형 상업시설·데이터센터가 밀집해 있어 수전설비 용량이 큰 건물의 상주 선임 수요가 많은 지역입니다."
   },
   {
     "slug": "incheon",
@@ -464,7 +477,8 @@
         ],
         "fullName": "남동구",
         "sortName": "남동구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "남동국가산업단지"
       },
       {
         "slug": "michuhol",
@@ -479,7 +493,8 @@
         ],
         "fullName": "미추홀구",
         "sortName": "미추홀구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "주안국가산업단지"
       },
       {
         "slug": "bupyeong",
@@ -494,7 +509,8 @@
         ],
         "fullName": "부평구",
         "sortName": "부평구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "부평국가산업단지"
       },
       {
         "slug": "seohae",
@@ -527,7 +543,8 @@
         ],
         "fullName": "연수구",
         "sortName": "연수구",
-        "aliases": []
+        "aliases": [],
+        "landmark": "송도 바이오·첨단산업단지"
       },
       {
         "slug": "yeongjong",
@@ -583,7 +600,8 @@
       }
     ],
     "updatedAt": "2026-09-17",
-    "adminNote": "지역명은 2026년 7월 행정체제 개편을 반영했습니다."
+    "adminNote": "지역명은 2026년 7월 행정체제 개편을 반영했습니다.",
+    "context": "남동·주안·부평 국가산업단지와 항만·물류시설, 공항 배후단지가 있어 공장과 물류센터의 전기안전관리자 선임 수요가 꾸준한 지역입니다."
   },
   {
     "slug": "gyeonggi",
@@ -611,7 +629,8 @@
         ],
         "fullName": "가평군",
         "sortName": "가평",
-        "aliases": []
+        "aliases": [],
+        "landmark": "가평 상업·숙박시설"
       },
       {
         "slug": "goyang",
@@ -626,7 +645,8 @@
         ],
         "fullName": "고양시",
         "sortName": "고양",
-        "aliases": []
+        "aliases": [],
+        "landmark": "고양 일산테크노밸리·물류시설"
       },
       {
         "slug": "gwacheon",
@@ -641,7 +661,8 @@
         ],
         "fullName": "과천시",
         "sortName": "과천",
-        "aliases": []
+        "aliases": [],
+        "landmark": "과천 지식정보타운"
       },
       {
         "slug": "gwangmyeong",
@@ -656,7 +677,8 @@
         ],
         "fullName": "광명시",
         "sortName": "광명",
-        "aliases": []
+        "aliases": [],
+        "landmark": "광명 시흥테크노밸리"
       },
       {
         "slug": "gwangju",
@@ -671,7 +693,8 @@
         ],
         "fullName": "광주시",
         "sortName": "광주",
-        "aliases": []
+        "aliases": [],
+        "landmark": "초월·곤지암 물류센터"
       },
       {
         "slug": "guri",
@@ -686,7 +709,8 @@
         ],
         "fullName": "구리시",
         "sortName": "구리",
-        "aliases": []
+        "aliases": [],
+        "landmark": "구리 도심 상업시설"
       },
       {
         "slug": "gunpo",
@@ -701,7 +725,8 @@
         ],
         "fullName": "군포시",
         "sortName": "군포",
-        "aliases": []
+        "aliases": [],
+        "landmark": "군포 첨단산업단지"
       },
       {
         "slug": "gimpo",
@@ -716,7 +741,8 @@
         ],
         "fullName": "김포시",
         "sortName": "김포",
-        "aliases": []
+        "aliases": [],
+        "landmark": "김포 골드밸리·양촌 산업단지"
       },
       {
         "slug": "namyangju",
@@ -731,7 +757,8 @@
         ],
         "fullName": "남양주시",
         "sortName": "남양주",
-        "aliases": []
+        "aliases": [],
+        "landmark": "남양주 물류센터"
       },
       {
         "slug": "dongducheon",
@@ -746,7 +773,8 @@
         ],
         "fullName": "동두천시",
         "sortName": "동두천",
-        "aliases": []
+        "aliases": [],
+        "landmark": "동두천 산업단지"
       },
       {
         "slug": "bucheon",
@@ -761,7 +789,8 @@
         ],
         "fullName": "부천시",
         "sortName": "부천",
-        "aliases": []
+        "aliases": [],
+        "landmark": "부천 오정·삼정 산업단지"
       },
       {
         "slug": "seongnam",
@@ -776,7 +805,8 @@
         ],
         "fullName": "성남시",
         "sortName": "성남",
-        "aliases": []
+        "aliases": [],
+        "landmark": "판교테크노밸리·성남 산업단지"
       },
       {
         "slug": "suwon",
@@ -791,7 +821,8 @@
         ],
         "fullName": "수원시",
         "sortName": "수원",
-        "aliases": []
+        "aliases": [],
+        "landmark": "삼성전자 인근 협력사와 업무시설"
       },
       {
         "slug": "siheung",
@@ -806,7 +837,8 @@
         ],
         "fullName": "시흥시",
         "sortName": "시흥",
-        "aliases": []
+        "aliases": [],
+        "landmark": "시화국가산업단지와 시화MTV"
       },
       {
         "slug": "ansan",
@@ -821,7 +853,8 @@
         ],
         "fullName": "안산시",
         "sortName": "안산",
-        "aliases": []
+        "aliases": [],
+        "landmark": "반월국가산업단지"
       },
       {
         "slug": "anseong",
@@ -836,7 +869,8 @@
         ],
         "fullName": "안성시",
         "sortName": "안성",
-        "aliases": []
+        "aliases": [],
+        "landmark": "안성 물류센터·산업단지"
       },
       {
         "slug": "anyang",
@@ -851,7 +885,8 @@
         ],
         "fullName": "안양시",
         "sortName": "안양",
-        "aliases": []
+        "aliases": [],
+        "landmark": "안양 평촌 스마트스퀘어"
       },
       {
         "slug": "yangju",
@@ -866,7 +901,8 @@
         ],
         "fullName": "양주시",
         "sortName": "양주",
-        "aliases": []
+        "aliases": [],
+        "landmark": "양주 은남·홍죽 산업단지"
       },
       {
         "slug": "yangpyeong",
@@ -881,7 +917,8 @@
         ],
         "fullName": "양평군",
         "sortName": "양평",
-        "aliases": []
+        "aliases": [],
+        "landmark": "양평 물류·상업시설"
       },
       {
         "slug": "yeoju",
@@ -896,7 +933,8 @@
         ],
         "fullName": "여주시",
         "sortName": "여주",
-        "aliases": []
+        "aliases": [],
+        "landmark": "여주 물류센터"
       },
       {
         "slug": "yeoncheon",
@@ -911,7 +949,8 @@
         ],
         "fullName": "연천군",
         "sortName": "연천",
-        "aliases": []
+        "aliases": [],
+        "landmark": "연천 산업단지"
       },
       {
         "slug": "osan",
@@ -926,7 +965,8 @@
         ],
         "fullName": "오산시",
         "sortName": "오산",
-        "aliases": []
+        "aliases": [],
+        "landmark": "오산 가장산업단지"
       },
       {
         "slug": "yongin",
@@ -941,7 +981,8 @@
         ],
         "fullName": "용인시",
         "sortName": "용인",
-        "aliases": []
+        "aliases": [],
+        "landmark": "기흥·원삼 반도체 클러스터와 물류센터"
       },
       {
         "slug": "uiwang",
@@ -956,7 +997,8 @@
         ],
         "fullName": "의왕시",
         "sortName": "의왕",
-        "aliases": []
+        "aliases": [],
+        "landmark": "의왕 물류단지"
       },
       {
         "slug": "uijeongbu",
@@ -971,7 +1013,8 @@
         ],
         "fullName": "의정부시",
         "sortName": "의정부",
-        "aliases": []
+        "aliases": [],
+        "landmark": "의정부 업무·상업시설"
       },
       {
         "slug": "icheon",
@@ -986,7 +1029,8 @@
         ],
         "fullName": "이천시",
         "sortName": "이천",
-        "aliases": []
+        "aliases": [],
+        "landmark": "이천 물류센터 밀집지"
       },
       {
         "slug": "paju",
@@ -1001,7 +1045,8 @@
         ],
         "fullName": "파주시",
         "sortName": "파주",
-        "aliases": []
+        "aliases": [],
+        "landmark": "파주 LCD 산업단지"
       },
       {
         "slug": "pyeongtaek",
@@ -1016,7 +1061,8 @@
         ],
         "fullName": "평택시",
         "sortName": "평택",
-        "aliases": []
+        "aliases": [],
+        "landmark": "고덕·포승 산업단지와 항만 물류"
       },
       {
         "slug": "pocheon",
@@ -1031,7 +1077,8 @@
         ],
         "fullName": "포천시",
         "sortName": "포천",
-        "aliases": []
+        "aliases": [],
+        "landmark": "포천 소규모 공장 밀집지"
       },
       {
         "slug": "hanam",
@@ -1046,7 +1093,8 @@
         ],
         "fullName": "하남시",
         "sortName": "하남",
-        "aliases": []
+        "aliases": [],
+        "landmark": "하남 미사·감일 물류시설"
       },
       {
         "slug": "hwaseong",
@@ -1061,10 +1109,12 @@
         ],
         "fullName": "화성시",
         "sortName": "화성",
-        "aliases": []
+        "aliases": [],
+        "landmark": "동탄·향남 산업단지와 대형 물류센터"
       }
     ],
-    "updatedAt": "2026-09-17"
+    "updatedAt": "2026-09-17",
+    "context": "반월·시화, 동탄, 판교, 파주 LCD 등 산업단지와 대형 물류센터가 가장 많이 몰려 있어 신규 선임과 위탁업체 변경 문의가 가장 많은 권역입니다."
   },
   {
     "slug": "chungbuk",
@@ -1092,7 +1142,8 @@
         ],
         "fullName": "괴산군",
         "sortName": "괴산",
-        "aliases": []
+        "aliases": [],
+        "landmark": "괴산 산업단지"
       },
       {
         "slug": "danyang",
@@ -1107,7 +1158,8 @@
         ],
         "fullName": "단양군",
         "sortName": "단양",
-        "aliases": []
+        "aliases": [],
+        "landmark": "단양 시멘트·산업시설"
       },
       {
         "slug": "boeun",
@@ -1122,7 +1174,8 @@
         ],
         "fullName": "보은군",
         "sortName": "보은",
-        "aliases": []
+        "aliases": [],
+        "landmark": "보은 산업단지"
       },
       {
         "slug": "yeongdong",
@@ -1137,7 +1190,8 @@
         ],
         "fullName": "영동군",
         "sortName": "영동",
-        "aliases": []
+        "aliases": [],
+        "landmark": "영동 산업단지"
       },
       {
         "slug": "okcheon",
@@ -1152,7 +1206,8 @@
         ],
         "fullName": "옥천군",
         "sortName": "옥천",
-        "aliases": []
+        "aliases": [],
+        "landmark": "옥천 산업단지"
       },
       {
         "slug": "eumseong",
@@ -1167,7 +1222,8 @@
         ],
         "fullName": "음성군",
         "sortName": "음성",
-        "aliases": []
+        "aliases": [],
+        "landmark": "음성 산업단지"
       },
       {
         "slug": "jecheon",
@@ -1182,7 +1238,8 @@
         ],
         "fullName": "제천시",
         "sortName": "제천",
-        "aliases": []
+        "aliases": [],
+        "landmark": "제천 산업단지"
       },
       {
         "slug": "jeungpyeong",
@@ -1197,7 +1254,8 @@
         ],
         "fullName": "증평군",
         "sortName": "증평",
-        "aliases": []
+        "aliases": [],
+        "landmark": "증평 산업단지"
       },
       {
         "slug": "jincheon",
@@ -1212,7 +1270,8 @@
         ],
         "fullName": "진천군",
         "sortName": "진천",
-        "aliases": []
+        "aliases": [],
+        "landmark": "진천 산업단지·혁신도시"
       },
       {
         "slug": "cheongju",
@@ -1227,7 +1286,8 @@
         ],
         "fullName": "청주시",
         "sortName": "청주",
-        "aliases": []
+        "aliases": [],
+        "landmark": "오창·오송 산업단지"
       },
       {
         "slug": "chungju",
@@ -1242,10 +1302,12 @@
         ],
         "fullName": "충주시",
         "sortName": "충주",
-        "aliases": []
+        "aliases": [],
+        "landmark": "충주 기업도시·산업단지"
       }
     ],
-    "updatedAt": "2026-09-17"
+    "updatedAt": "2026-09-17",
+    "context": "오창·오송 바이오단지, 청주 산업단지, 진천·음성 혁신도시 주변 공장이 늘어나면서 상주 전기안전관리자 확보가 어려운 사업장이 많은 지역입니다."
   },
   {
     "slug": "chungnam",
@@ -1273,7 +1335,8 @@
         ],
         "fullName": "계룡시",
         "sortName": "계룡",
-        "aliases": []
+        "aliases": [],
+        "landmark": "계룡 업무시설"
       },
       {
         "slug": "gongju",
@@ -1288,7 +1351,8 @@
         ],
         "fullName": "공주시",
         "sortName": "공주",
-        "aliases": []
+        "aliases": [],
+        "landmark": "공주 산업단지"
       },
       {
         "slug": "geumsan",
@@ -1303,7 +1367,8 @@
         ],
         "fullName": "금산군",
         "sortName": "금산",
-        "aliases": []
+        "aliases": [],
+        "landmark": "금산 산업단지"
       },
       {
         "slug": "nonsan",
@@ -1318,7 +1383,8 @@
         ],
         "fullName": "논산시",
         "sortName": "논산",
-        "aliases": []
+        "aliases": [],
+        "landmark": "논산 산업단지"
       },
       {
         "slug": "dangjin",
@@ -1333,7 +1399,8 @@
         ],
         "fullName": "당진시",
         "sortName": "당진",
-        "aliases": []
+        "aliases": [],
+        "landmark": "당진 철강·송산산업단지"
       },
       {
         "slug": "boryeong",
@@ -1348,7 +1415,8 @@
         ],
         "fullName": "보령시",
         "sortName": "보령",
-        "aliases": []
+        "aliases": [],
+        "landmark": "보령 산업단지"
       },
       {
         "slug": "buyeo",
@@ -1363,7 +1431,8 @@
         ],
         "fullName": "부여군",
         "sortName": "부여",
-        "aliases": []
+        "aliases": [],
+        "landmark": "부여 산업단지"
       },
       {
         "slug": "seosan",
@@ -1378,7 +1447,8 @@
         ],
         "fullName": "서산시",
         "sortName": "서산",
-        "aliases": []
+        "aliases": [],
+        "landmark": "대산 석유화학단지"
       },
       {
         "slug": "seocheon",
@@ -1393,7 +1463,8 @@
         ],
         "fullName": "서천군",
         "sortName": "서천",
-        "aliases": []
+        "aliases": [],
+        "landmark": "서천 장항산업단지"
       },
       {
         "slug": "asan",
@@ -1408,7 +1479,8 @@
         ],
         "fullName": "아산시",
         "sortName": "아산",
-        "aliases": []
+        "aliases": [],
+        "landmark": "아산 탕정 디스플레이단지"
       },
       {
         "slug": "yesan",
@@ -1423,7 +1495,8 @@
         ],
         "fullName": "예산군",
         "sortName": "예산",
-        "aliases": []
+        "aliases": [],
+        "landmark": "예산 산업단지"
       },
       {
         "slug": "cheonan",
@@ -1438,7 +1511,8 @@
         ],
         "fullName": "천안시",
         "sortName": "천안",
-        "aliases": []
+        "aliases": [],
+        "landmark": "천안 제3·4산업단지"
       },
       {
         "slug": "cheongyang",
@@ -1453,7 +1527,8 @@
         ],
         "fullName": "청양군",
         "sortName": "청양",
-        "aliases": []
+        "aliases": [],
+        "landmark": "청양 산업단지"
       },
       {
         "slug": "taean",
@@ -1468,7 +1543,8 @@
         ],
         "fullName": "태안군",
         "sortName": "태안",
-        "aliases": []
+        "aliases": [],
+        "landmark": "태안 산업시설"
       },
       {
         "slug": "hongseong",
@@ -1483,9 +1559,11 @@
         ],
         "fullName": "홍성군",
         "sortName": "홍성",
-        "aliases": []
+        "aliases": [],
+        "landmark": "홍성 내포신도시"
       }
     ],
-    "updatedAt": "2026-09-17"
+    "updatedAt": "2026-09-17",
+    "context": "천안·아산 디스플레이 벨트, 당진 철강, 서산 대산 석유화학 등 대규모 수전설비 사업장이 많아 자격 요건이 높은 선임 수요가 있는 지역입니다."
   }
 ]

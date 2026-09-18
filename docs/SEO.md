@@ -50,3 +50,26 @@ curl -s  https://elecmanagepartners.com/regions/gyeonggi/ansan/ | grep -o '<meta
 curl -s  https://elecmanagepartners.com/robots.txt
 curl -s  https://elecmanagepartners.com/sitemap.xml | grep -c '<loc>'              # 205
 ```
+
+## 5. 구조화 데이터·메타 (2026-09-18 확장)
+
+| 페이지 | JSON-LD | 기타 |
+|---|---|---|
+| 메인 | WebSite, Organization(areaServed 5개 권역), WebPage | keywords, og:image |
+| 서비스 2종 | WebPage, BreadcrumbList, Service, FAQPage(상주) | keywords |
+| 권역 10 / 세부 지역 186 | WebPage, BreadcrumbList, Service(areaServed=해당 지역), FAQPage | 지역별 keywords, 권역 산업 문맥 문단 + 주요 도시 산업단지 문장(93개 중 80여 곳) |
+| 전체 | canonical, og:*, twitter:card, og:image 1200×630 (`/assets/img/og.jpg`) | |
+
+검증 도구: https://validator.schema.org , https://search.google.com/test/rich-results
+
+## 6. 구글 서치콘솔
+
+1. https://search.google.com/search-console → 속성 추가 → **URL 접두어** `https://elecmanagepartners.com/`
+2. 소유확인 "HTML 태그" → `content` 값 → `config/site.json` `seo.googleVerification` 에 입력 후 배포 → 확인
+3. Sitemaps → `https://elecmanagepartners.com/sitemap.xml` 제출
+4. URL 검사 → 메인·서비스·대표 지역 페이지 "색인 생성 요청"
+5. 1~2주 후 "페이지" 보고서에서 색인 수(목표 205) 확인. "리치 결과" 보고서에서 FAQ·Breadcrumb 인식 확인
+
+## 7. 네이버 추가 팁
+- 서치어드바이저 → 검증 → **웹 페이지 최적화**: 메인·지역 페이지 검사 시 제목/설명/robots/canonical/OG 항목 모두 "확인" 이어야 함 (현재 빌드 기준 충족)
+- 지역 파워링크 랜딩은 반드시 해당 지역 페이지 URL 로 (예: `/regions/gyeonggi/ansan/`), 광고 파라미터(`n_keyword` 등)는 자동으로 문의에 기록됨

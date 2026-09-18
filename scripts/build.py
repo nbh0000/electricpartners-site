@@ -10,6 +10,7 @@ ROOT=Path(__file__).resolve().parents[1]
 CONFIG=json.loads((ROOT/'config/site.json').read_text('utf-8'))
 REGIONS=json.loads((ROOT/'content/regions.json').read_text('utf-8'))
 PAGES={}
+EXTRA={}  # path -> {'faqs':[...],'service':{...},'keywords':'...'}
 E=lambda x: html.escape(str(x),quote=True)
 BRAND=CONFIG['brand']
 BRAND_EN=CONFIG.get('brandEnglish','ELECTRIC MANAGE PARTNERS')
@@ -184,8 +185,11 @@ def region_page(r,c=None,service='onsite')->str:
     switch='<div class="page-service-links">'+a(region_url(r,c),'상주 위탁','active' if not is_duty else '')+a(region_url(r,c,'duty'),'직무고시 대행','active' if is_duty else '')+'</div>'
     notice=''
     if r['slug']=='gyeonggi' and c and c['slug']=='gwangju':notice='<p class="area-note">이 페이지는 광주광역시가 아닌 경기도 광주시 안내입니다.</p>'
+    EXTRA[path]={'faqs':faqs}
+    landmark=(c or {}).get('landmark')
+    ctx_html='<section class="content-block"><h2>'+E(name)+' 지역 전기안전관리 여건</h2><p>'+E(r['context'])+'</p>'+(('<p>'+E(name)+'은(는) '+E(landmark)+' 등 '+('점검 대상 설비가 많은' if is_duty else '전기안전관리자 선임 의무 사업장이 많은')+' 곳으로, '+E(BRAND)+'는 '+E(name)+' 현장의 '+('직무고시 점검 일정과 정전 조건을 사전에 조율해 운영 중단을 최소화합니다.' if is_duty else '설비 규모와 근무 조건에 맞는 자격자를 배치하고 인수인계까지 책임집니다.')+'</p>') if landmark else '')+'</section>'
     return f'''<main id="main"><section class="page-hero bg-region"><div class="wrap">{breadcrumb(crumb)}{switch}<span class="pill">{E(r['fullName'])} · 서비스 지역</span><h1>{title}</h1><p class="lead">{E(intro)}</p><div class="hero-actions">{btn(quote_url(r['slug'],c['slug'] if c else '',service),'이 지역 견적 문의')}{a('/guide/duty-cost/' if is_duty else '/guide/cost/','견적 기준 보기 <span aria-hidden="true">→</span>','text-link')}</div>{notice}<div class="local-banner"><div><div class="kicker">{'INSPECTION' if is_duty else 'ON-SITE'} / {E(label)}</div><h2>{E(focus)}</h2><p>{'대상 설비 · 점검 항목 · 정전 조건 · 결과서' if is_duty else '필요 인원 · 근무형태 · 업무 범위 · 착수일'}</p></div><span class="pill">{service_name}</span></div></div></section>
-    <section class="section-tight"><div class="wrap content-grid"><div><section class="content-block"><h2>{E(heading)}</h2><p>{E(question)}</p><ul class="check-list">{''.join('<li>'+E(q)+'</li>' for q in checks)}</ul></section><section class="content-block"><h2>{'점검부터 결과서까지 진행 순서' if is_duty else '상담부터 착수까지 진행 순서'}</h2><p>{detail}</p><div class="scope-list">{blockrows}</div><p class="source-note">{supporting}</p></section><section class="content-block"><h2>함께 보면 좋은 안내</h2><div class="related-links">{''.join(a(p,t+' <span aria-hidden="true">→</span>') for p,t in guideslocal)}</div></section><section class="content-block"><h2>{E(name)} 고객이 자주 묻는 질문</h2>{faq(faqs)}</section></div>{side_card(r,c,service)}</section>
+    <section class="section-tight"><div class="wrap content-grid"><div><section class="content-block"><h2>{E(heading)}</h2><p>{E(question)}</p><ul class="check-list">{''.join('<li>'+E(q)+'</li>' for q in checks)}</ul></section>{ctx_html}<section class="content-block"><h2>{'점검부터 결과서까지 진행 순서' if is_duty else '상담부터 착수까지 진행 순서'}</h2><p>{detail}</p><div class="scope-list">{blockrows}</div><p class="source-note">{supporting}</p></section><section class="content-block"><h2>함께 보면 좋은 안내</h2><div class="related-links">{''.join(a(p,t+' <span aria-hidden="true">→</span>') for p,t in guideslocal)}</div></section><section class="content-block"><h2>{E(name)} 고객이 자주 묻는 질문</h2>{faq(faqs)}</section></div>{side_card(r,c,service)}</section>
     <section class="section-tight section-soft"><div class="wrap"><div class="section-head"><div>{eyebrow('SAME REGION')}<h2>{E(r['fullName'])}의 {'다른 지역' if c else '세부 지역'}</h2></div><p>가나다순으로 정리했습니다.</p></div><div class="search-city-list">{sibling}</div></div></section>{cta(r['slug'],c['slug'] if c else '',service)}</main>'''
 
 
@@ -256,9 +260,9 @@ def quote_page()->str:
     <div class="form-error" role="alert" aria-live="polite"></div><div class="form-actions"><button type="button" class="btn btn-ghost prev" hidden>이전</button><button type="button" class="btn next">다음 단계 <span aria-hidden="true">→</span></button><button type="submit" class="btn submit" hidden>견적 문의 접수 <span aria-hidden="true">→</span></button></div></form><div class="form-result" hidden aria-live="polite"></div><noscript><p class="draft-note">문의 작성에는 자바스크립트가 필요합니다. 서비스 안내는 자바스크립트 없이도 읽을 수 있습니다.</p></noscript></div></div></div></main>'''
 
 
-def add(path,title,body,kind='page',description='',light=False,crumbs=None):
+def add(path,title,body,kind='page',description='',light=False,crumbs=None,faqs=None,service=None,keywords=''):
     plain=re.sub('<[^>]+>','',title)
-    PAGES[path]={'title':plain+' | '+BRAND,'description':description or (plain+'. '+AREA+' 현장의 전기안전관리자 상주선임·위탁과 직무고시 대행. 지역별 비공개 견적 문의.'),'html':header(light)+body+footer(),'kind':kind,'crumbs':crumbs}
+    PAGES[path]={'title':plain+' | '+BRAND,'description':description or (plain+'. '+AREA+' 현장의 전기안전관리자 상주선임·위탁과 직무고시 대행. 지역별 비공개 견적 문의.'),'html':header(light)+body+footer(),'kind':kind,'crumbs':crumbs,'faqs':faqs,'service':service,'keywords':keywords}
 
 
 def page_doc(path,page):
@@ -276,11 +280,15 @@ def page_doc(path,page):
             graph.append({'@type':'Organization','@id':ORIGIN+'/#org','name':BRAND,'alternateName':BRAND_EN,'url':ORIGIN+'/','logo':ORIGIN+'/favicon.svg','areaServed':[r['fullName'] for r in REGIONS],'description':page['description']})
         if page.get('crumbs'):
             graph.append({'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':i+1,'name':n,'item':ORIGIN+u} for i,(u,n) in enumerate(page['crumbs'])]})
+        if page.get('service'):
+            sv=page['service'];graph.append({'@type':'Service','@id':ORIGIN+path+'#service','name':sv['name'],'serviceType':sv['type'],'description':page['description'],'provider':{'@id':ORIGIN+'/#org'},'areaServed':sv['area'],'url':ORIGIN+path,'availableChannel':{'@type':'ServiceChannel','serviceUrl':ORIGIN+'/quote/','availableLanguage':'ko'}})
+        if page.get('faqs'):
+            graph.append({'@type':'FAQPage','mainEntity':[{'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}} for q,a in page['faqs']]})
         data={'@context':'https://schema.org','@graph':graph}
         schema='<script type="application/ld+json">'+json.dumps(data,ensure_ascii=False).replace('</','<\\/')+'</script>'
     turnstile='<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' if CONFIG['form']['enabled'] and page['kind']=='quote' else ''
     fonts='<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Outfit:wght@400;500;600&display=swap">'
-    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="{robots}"><meta name="theme-color" content="#15352D"><title>{E(page['title'])}</title><meta name="description" content="{E(page['description'])}"><meta property="og:type" content="website"><meta property="og:site_name" content="{E(BRAND)}"><meta property="og:locale" content="ko_KR"><meta property="og:title" content="{E(page['title'])}"><meta property="og:description" content="{E(page['description'])}">{canonical}{ver}<link rel="icon" href="{BASE}/favicon.svg" type="image/svg+xml">{fonts}<link rel="stylesheet" href="{BASE}/assets/style.css">{schema}</head><body>{page['html']}<script src="{BASE}/assets/data.js" defer></script><script src="{BASE}/assets/app.js" defer></script>{turnstile}</body></html>'''
+    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="{robots}"><meta name="theme-color" content="#15352D"><title>{E(page['title'])}</title><meta name="description" content="{E(page['description'])}"><meta property="og:type" content="website"><meta property="og:site_name" content="{E(BRAND)}"><meta property="og:locale" content="ko_KR"><meta property="og:title" content="{E(page['title'])}"><meta property="og:description" content="{E(page['description'])}"><meta property="og:image" content="{E(ORIGIN or '')}/assets/img/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">{('<meta name="keywords" content="'+E(page['keywords'])+'">') if page.get('keywords') else ''}{canonical}{ver}<link rel="icon" href="{BASE}/favicon.svg" type="image/svg+xml">{fonts}<link rel="stylesheet" href="{BASE}/assets/style.css">{schema}</head><body>{page['html']}<script src="{BASE}/assets/data.js" defer></script><script src="{BASE}/assets/app.js" defer></script>{turnstile}</body></html>'''
 
 
 def verify_production():
@@ -297,17 +305,17 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--preview-output',default=str(ROOT/'전기관리파트너스_미리보기.html'));args=parser.parse_args()
     verify_production()
     for region in REGIONS: region['cities'].sort(key=lambda city:city.get('sortName',city['name']))
-    add('/','전기안전관리자 상주선임·위탁 전문',home(),light=True,description=f'전기안전관리자 상주선임·상주 위탁 전문 {BRAND}. 신규 선임, 위탁업체 변경, 직접고용 전환과 직무고시 대행. {AREA} 지역별 비공개 견적 문의.')
+    add('/','전기안전관리자 상주선임·위탁 전문',home(),light=True,keywords='전기안전관리자 상주선임, 전기안전관리 위탁, 전기안전관리업체, 직무고시 대행, 전기안전관리자 선임대행',description=f'전기안전관리자 상주선임·상주 위탁 전문 {BRAND}. 신규 선임, 위탁업체 변경, 직접고용 전환과 직무고시 대행. {AREA} 지역별 비공개 견적 문의.')
     add('/regions/','서울·인천·경기·충북·충남 지역별 전기안전관리 안내',all_regions())
     for r in REGIONS:
-        add(f'/regions/{r["slug"]}/',r['name']+' 전기안전관리자 상주선임·위탁',region_page(r),'region',crumbs=[('/','홈'),('/regions/','서비스 지역'),(region_url(r),r['name'])],description=f'{r["fullName"]} 전기안전관리업체를 찾으신다면. {r["name"]} 사업장의 전기안전관리자 상주선임·상주 위탁, 위탁업체 변경, 직접고용 전환 견적 문의.')
-        add(region_url(r,service='duty'),r['name']+' 직무고시 대행',region_page(r,service='duty'),'region',description=f'{r["fullName"]} 직무고시 대행 전문 {BRAND}. {r["name"]} 사업장의 전기안전관리자 직무고시 점검·측정(열화상·절연·접지저항)과 결과서 작성을 대행합니다. 상주 위탁 없이 별도 의뢰 가능, 비공개 견적 문의.')
+        body=region_page(r);add(f'/regions/{r["slug"]}/',r['name']+' 전기안전관리자 상주선임·위탁',body,'region',faqs=EXTRA[region_url(r)]['faqs'],service={'name':r['name']+' 전기안전관리자 상주 위탁','type':'전기안전관리자 상주선임·위탁','area':r['fullName']},keywords=f'{r["name"]} 전기안전관리업체, {r["name"]} 전기안전관리자 상주선임, {r["name"]} 전기안전관리 위탁, {r["name"]} 전기안전관리자 선임대행',crumbs=[('/','홈'),('/regions/','서비스 지역'),(region_url(r),r['name'])],description=f'{r["fullName"]} 전기안전관리업체를 찾으신다면. {r["name"]} 사업장의 전기안전관리자 상주선임·상주 위탁, 위탁업체 변경, 직접고용 전환 견적 문의.')
+        body=region_page(r,service='duty');add(region_url(r,service='duty'),r['name']+' 직무고시 대행',body,'region',faqs=EXTRA[region_url(r,service='duty')]['faqs'],service={'name':r['name']+' 직무고시 대행','type':'전기안전관리자 직무고시 점검 대행','area':r['fullName']},keywords=f'{r["name"]} 직무고시 대행, {r["name"]} 전기설비 점검, {r["name"]} 열화상 점검, {r["name"]} 절연저항 측정',description=f'{r["fullName"]} 직무고시 대행 전문 {BRAND}. {r["name"]} 사업장의 전기안전관리자 직무고시 점검·측정(열화상·절연·접지저항)과 결과서 작성을 대행합니다. 상주 위탁 없이 별도 의뢰 가능, 비공개 견적 문의.')
         for c in r['cities']:
             label=r['name']+' '+c['name']
-            add(region_url(r,c),label+' 전기안전관리자 상주선임·위탁',region_page(r,c),'region',crumbs=[('/','홈'),('/regions/','서비스 지역'),(region_url(r),r['name']),(region_url(r,c),c['name'])],description=f'{label} 전기안전관리업체를 찾으신다면. {c["name"]} 사업장의 전기안전관리자 상주선임·상주 위탁, 위탁업체 변경, 직접고용 전환 견적 문의.')
-            add(region_url(r,c,'duty'),label+' 직무고시 대행',region_page(r,c,'duty'),'region',description=f'{label} 직무고시 대행 전문 {BRAND}. {c["name"]} 사업장의 전기안전관리자 직무고시 점검·측정(열화상·절연·접지저항)과 결과서 작성을 대행합니다. 상주 위탁 없이 별도 의뢰 가능, 비공개 견적 문의.')
-    add('/services/onsite/','전기안전관리자 상주선임·위탁 서비스',services())
-    add('/services/duty/','직무고시 대행 서비스',duty_service())
+            body=region_page(r,c);add(region_url(r,c),label+' 전기안전관리자 상주선임·위탁',body,'region',faqs=EXTRA[region_url(r,c)]['faqs'],service={'name':c['name']+' 전기안전관리자 상주 위탁','type':'전기안전관리자 상주선임·위탁','area':r['fullName']+' '+c['name']},keywords=f'{c["name"]} 전기안전관리업체, {c["name"]} 전기안전관리자 상주선임, {c["name"]} 전기안전관리 위탁, {c["name"]} 전기안전관리자 선임대행, {label} 전기안전관리',crumbs=[('/','홈'),('/regions/','서비스 지역'),(region_url(r),r['name']),(region_url(r,c),c['name'])],description=f'{label} 전기안전관리업체를 찾으신다면. {c["name"]} 사업장의 전기안전관리자 상주선임·상주 위탁, 위탁업체 변경, 직접고용 전환 견적 문의.')
+            body=region_page(r,c,'duty');add(region_url(r,c,'duty'),label+' 직무고시 대행',body,'region',faqs=EXTRA[region_url(r,c,'duty')]['faqs'],service={'name':c['name']+' 직무고시 대행','type':'전기안전관리자 직무고시 점검 대행','area':r['fullName']+' '+c['name']},keywords=f'{c["name"]} 직무고시 대행, {c["name"]} 전기설비 점검, {c["name"]} 열화상 점검, {c["name"]} 절연저항 측정',description=f'{label} 직무고시 대행 전문 {BRAND}. {c["name"]} 사업장의 전기안전관리자 직무고시 점검·측정(열화상·절연·접지저항)과 결과서 작성을 대행합니다. 상주 위탁 없이 별도 의뢰 가능, 비공개 견적 문의.')
+    add('/services/onsite/','전기안전관리자 상주선임·위탁 서비스',services(),faqs=FAQS,service={'name':'전기안전관리자 상주선임·위탁','type':'전기안전관리자 상주선임·위탁','area':[r['fullName'] for r in REGIONS]},keywords='전기안전관리자 상주선임, 전기안전관리 위탁, 전기안전관리자 선임대행, 전기안전관리업체, 상주 전기안전관리자',crumbs=[('/','홈'),('/services/onsite/','상주 위탁')],description='전기안전관리자 상주선임·상주 위탁 전문. 신규 선임, 기존 위탁업체 변경, 직접고용에서 위탁 전환까지 서울·인천·경기·충북·충남 사업장의 전기안전관리를 책임집니다.')
+    add('/services/duty/','직무고시 대행 서비스',duty_service(),service={'name':'직무고시 대행','type':'전기안전관리자 직무고시 점검 대행','area':[r['fullName'] for r in REGIONS]},keywords='직무고시 대행, 전기안전관리자 직무고시, 전기설비 정기점검, 열화상 점검, 절연저항 측정, 접지저항 측정',crumbs=[('/','홈'),('/services/duty/','직무고시 대행')],description='전기안전관리자 직무고시에 따른 점검·측정(열화상·절연·접지저항)과 결과서 작성을 대행합니다. 상주 위탁 없이 별도 의뢰 가능. 서울·인천·경기·충북·충남.')
     for k,g in GUIDES.items():add('/guide/'+k+'/',g['label'],guide(k))
     add('/about/','회사 소개',about())
     pv=CONFIG['privacy'];o=CONFIG['operator']
