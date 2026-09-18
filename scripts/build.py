@@ -280,7 +280,12 @@ def page_doc(path,page):
         graph=[{'@type':'WebPage','@id':ORIGIN+path,'name':page['title'],'description':page['description'],'url':ORIGIN+path,'inLanguage':'ko-KR','isPartOf':{'@id':ORIGIN+'/#website'}}]
         if path=='/':
             graph.append({'@type':'WebSite','@id':ORIGIN+'/#website','url':ORIGIN+'/','name':BRAND,'inLanguage':'ko-KR'})
-            graph.append({'@type':'Organization','@id':ORIGIN+'/#org','name':BRAND,'alternateName':BRAND_EN,'url':ORIGIN+'/','logo':ORIGIN+'/favicon.svg','areaServed':[r['fullName'] for r in REGIONS],'description':page['description']})
+            org={'@type':'Organization','@id':ORIGIN+'/#org','name':BRAND,'alternateName':BRAND_EN,'url':ORIGIN+'/','logo':ORIGIN+'/favicon.svg','image':ORIGIN+'/assets/img/og.jpg','areaServed':[r['fullName'] for r in REGIONS],'description':page['description'],'knowsAbout':['전기안전관리자 상주선임','전기안전관리 위탁','직무고시 대행','전기설비 점검']}
+            if SEO.get('sameAs'):org['sameAs']=SEO['sameAs']
+            if CONFIG['phone']:org['telephone']=CONFIG['phone'];org['contactPoint']={'@type':'ContactPoint','telephone':CONFIG['phone'],'contactType':'sales','areaServed':'KR','availableLanguage':'ko'}
+            if CONFIG['email']:org['email']=CONFIG['email']
+            if CONFIG['operator']['publicAddress']:org['address']={'@type':'PostalAddress','streetAddress':CONFIG['operator']['publicAddress'],'addressCountry':'KR'}
+            graph.append(org)
         if page.get('crumbs'):
             graph.append({'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':i+1,'name':n,'item':ORIGIN+u} for i,(u,n) in enumerate(page['crumbs'])]})
         if page.get('service'):
