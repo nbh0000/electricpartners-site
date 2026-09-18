@@ -78,7 +78,9 @@ async function verifyTurnstile(token,env) {
 function store(env) {
   if(env.SUPABASE_URL && env.SUPABASE_SERVICE_KEY){
     const base=env.SUPABASE_URL.replace(/\/$/,'')+'/rest/v1';
-    const headers={'apikey':env.SUPABASE_SERVICE_KEY,'Authorization':'Bearer '+env.SUPABASE_SERVICE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'};
+    // 새 형식 키(sb_secret_...)는 apikey 헤더만, 구형 service_role JWT 는 Authorization 도 함께 보낸다.
+    const key=env.SUPABASE_SERVICE_KEY;
+    const headers={'apikey':key,'Content-Type':'application/json','Prefer':'return=minimal',...(key.startsWith('eyJ')?{'Authorization':'Bearer '+key}:{})};
     const call=async(path,init)=>{const r=await fetch(base+path,{...init,headers:{...headers,...(init.headers||{})},signal:AbortSignal.timeout(8000)});if(!r.ok)throw new Error('SUPABASE_'+r.status);return r;};
     return {
       async bump(fingerprint,expiry){const r=await call('/rpc/bump_request_limit',{method:'POST',body:JSON.stringify({p_fingerprint:fingerprint,p_expires_at:expiry}),headers:{'Prefer':'return=representation'}});return Number(await r.json());},
