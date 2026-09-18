@@ -272,7 +272,10 @@ def page_doc(path,page):
     robots='index,follow' if indexable else 'noindex,follow'
     canonical=f'<link rel="canonical" href="{E(ORIGIN+path)}">' if ORIGIN else ''
     canonical+=f'<meta property="og:url" content="{E(ORIGIN+path)}">' if ORIGIN else ''
-    ver=''.join(f'<meta name="{name}" content="{E(SEO[key])}">' for key,name in [('googleVerification','google-site-verification'),('naverVerification','naver-site-verification')] if SEO.get(key))
+    ver=''
+    for key,name in [('googleVerification','google-site-verification'),('naverVerification','naver-site-verification')]:
+        vals=SEO.get(key) or [];vals=[vals] if isinstance(vals,str) else vals
+        ver+=''.join(f'<meta name="{name}" content="{E(v)}">' for v in vals if v)
     schema=''
     if indexable:
         graph=[{'@type':'WebPage','@id':ORIGIN+path,'name':page['title'],'description':page['description'],'url':ORIGIN+path,'inLanguage':'ko-KR','isPartOf':{'@id':ORIGIN+'/#website'}}]

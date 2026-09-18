@@ -38,7 +38,10 @@
     "customDomainLive": false,
     "approvedPaths": [],
     "googleVerification": "",
-    "naverVerification": "175b619c07746e735d3b45046d128599e644bbf1"
+    "naverVerification": [
+      "175b619c07746e735d3b45046d128599e644bbf1",
+      "62d24ee22627fe4a7f4bdbc300c4ed39d352bd32"
+    ]
   },
   "domainCandidates": [
     "elecmanagepartners.com"
